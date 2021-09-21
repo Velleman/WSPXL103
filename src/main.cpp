@@ -17,6 +17,9 @@ CRGBArray<NUM_LEDS> leds;
 #define PRIDE_MODE 2
 #define DEMO_MODE 3
 #define TWINKLE_MODE 4
+#define PATTERN1_MODE 5
+#define PATTERN2_MODE 6
+#define PATTERN3_MODE 7
 void btn_pressed();
 void horns_fade(uint8_t speed);
 void nose_fade(uint8_t speed);
@@ -31,14 +34,18 @@ void sinelon();
 void bpm();
 void juggle();
 void twinkle();
+void pattern1(uint16_t speed);
+void pattern2(uint16_t speed);
+void pattern3(uint16_t speed);
 void chooseNextColorPalette(CRGBPalette16 &pal);
 void coolLikeIncandescent(CRGB &c, uint8_t phase);
 uint8_t attackDecayWave8(uint8_t i);
 CRGB computeOneTwinkle(uint32_t ms, uint8_t salt);
 void drawTwinkles(CRGBSet &L);
 #define ARRAY_SIZE(A) (sizeof(A) / sizeof((A)[0]))
-uint8_t currentMode = HORNS_FADE_MODE;
-uint8_t previousMode = HORNS_FADE_MODE;
+uint8_t currentMode = PATTERN1_MODE;
+uint8_t previousMode = PATTERN1_MODE;
+bool btnPressed = false;
 // Overall twinkle speed.
 // 0 (VERY slow) to 8 (VERY fast).
 // 4, 5, and 6 are recommended, default is 4.
@@ -108,6 +115,15 @@ void loop()
   case TWINKLE_MODE:
     twinkle();
     break;
+  case PATTERN1_MODE:
+    pattern1(300);
+    break;
+  case PATTERN2_MODE:
+    pattern2(50);
+    break;
+  case PATTERN3_MODE:
+    pattern3(300);
+    break;
   default:
     currentMode = HORNS_FADE_MODE;
   }
@@ -115,11 +131,213 @@ void loop()
   {
     u8g2.clearBuffer();
     String s = "Hellow World!";
-    s+= currentMode; 
-    u8g2.drawStr(0,40,s.c_str());
+    s += currentMode;
+    u8g2.drawStr(0, 40, s.c_str());
     u8g2.sendBuffer(); // transfer internal memory to the display
     previousMode = currentMode;
   }
+}
+
+void pattern1(uint16_t speed)
+{
+  FastLED.clear();
+  FastLED.show();
+  delay(speed);
+  //1
+  leds[6] = CRGB(255, 255, 255);
+  leds[7] = CRGB(255, 255, 255);
+  leds[8] = CRGB(255, 255, 255);
+  FastLED.show();
+  if (btnPressed)
+  {
+    btnPressed = false;
+    return;
+  }
+  delay(speed);
+
+  //2
+  leds[5] = CRGB(255, 255, 255);
+  leds[9] = CRGB(255, 255, 255);
+  FastLED.show();
+  if (btnPressed)
+  {
+    btnPressed = false;
+    return;
+  }
+  delay(speed);
+  //3
+  leds[0] = CRGB(255, 255, 255);
+  leds[4] = CRGB(255, 255, 255);
+  leds[10] = CRGB(255, 255, 255);
+  FastLED.show();
+  if (btnPressed)
+  {
+    btnPressed = false;
+    return;
+  }
+  delay(speed);
+  //4
+  leds[3] = CRGB(255, 255, 255);
+  leds[11] = CRGB(255, 255, 255);
+  FastLED.show();
+  if (btnPressed)
+  {
+    btnPressed = false;
+    return;
+  }
+  delay(speed);
+  //5
+  leds[1] = CRGB(255, 255, 255);
+  leds[12] = CRGB(255, 255, 255);
+  FastLED.show();
+  if (btnPressed)
+  {
+    btnPressed = false;
+    return;
+  }
+  delay(speed);
+  //6
+  leds[2] = CRGB(255, 255, 255);
+  leds[13] = CRGB(255, 255, 255);
+  FastLED.show();
+  if (btnPressed)
+  {
+    btnPressed = false;
+    return;
+  }
+  delay(speed);
+  //7
+  leds[18] = CRGB(255, 255, 255);
+  leds[19] = CRGB(255, 255, 255);
+  FastLED.show();
+  if (btnPressed)
+  {
+    btnPressed = false;
+    return;
+  }
+  delay(speed);
+  //8
+  leds[16] = CRGB(255, 255, 255);
+  leds[21] = CRGB(255, 255, 255);
+  FastLED.show();
+  if (btnPressed)
+  {
+    btnPressed = false;
+    return;
+  }
+  delay(speed);
+  //9
+  leds[17] = CRGB(255, 255, 255);
+  leds[20] = CRGB(255, 255, 255);
+  FastLED.show();
+  if (btnPressed)
+  {
+    btnPressed = false;
+    return;
+  }
+  delay(speed);
+  //10
+  leds[15] = CRGB(255, 255, 255);
+  leds[22] = CRGB(255, 255, 255);
+  FastLED.show();
+  if (btnPressed)
+  {
+    btnPressed = false;
+    return;
+  }
+  delay(speed);
+  //11
+  leds[14] = CRGB(255, 255, 255);
+  leds[23] = CRGB(255, 255, 255);
+  FastLED.show();
+  if (btnPressed)
+  {
+    btnPressed = false;
+    return;
+  }
+  delay(speed);
+}
+
+void pattern2(uint16_t speed)
+{
+  uint8_t map[24] = {6, 5, 4, 3, 2, 1, 16, 15, 14, 17, 18, 19, 20, 23, 22, 21, 12, 13, 11, 10, 9, 8, 7, 0};
+  FastLED.clear();
+  FastLED.show();
+  delay(speed);
+  for (int i = 0; i < 24; i++)
+  {
+    leds[map[i]] = CRGB(255, 255, 255);
+    FastLED.show();
+    delay(speed);
+  }
+
+  /*
+  FastLED.clear();
+  FastLED.show();
+  for(uint8_t i = 6;i>=1;i--)
+  {
+    leds[i] = CRGB(255,255,255);
+    FastLED.show();
+    delay(speed);
+  }
+  for(uint8_t i = 16;i>=14;i--)
+  {
+    leds[i] = CRGB(255,255,255);
+    FastLED.show();
+    delay(speed);
+  }
+  for(uint8_t i = 17;i<21;i++)
+  {
+    leds[i] = CRGB(255,255,255);
+    FastLED.show();
+    delay(speed);
+  }
+  for(uint8_t i = 23;i>20;i--)
+  {
+    leds[i] = CRGB(255,255,255);
+    FastLED.show();
+    delay(speed);
+  }
+  leds[12] = CRGB(255,255,255);
+  FastLED.show();
+  delay(speed);
+  leds[13] = CRGB(255,255,255);
+  FastLED.show();
+  delay(speed);
+  for(uint8_t i = 11;i>=7;i--)
+  {
+    leds[i] = CRGB(255,255,255);
+    FastLED.show();
+    delay(speed);
+  }
+  leds[0] = CRGB(255,255,255);
+  FastLED.show();
+  delay(speed);
+*/
+}
+
+void pattern3(uint16_t speed)
+{
+  FastLED.clear();
+  FastLED.show();
+  char map[5][3] = {{5, 11, 2}, {7, 10, 1}, {9, 3, 13}, {8, 4, 12}, {6, 0, 0}};
+  static int i = 0;
+  for (int x = 0; x < 5; x++)
+  {
+    for (int y = 0; y < 3; y++)
+    {
+      leds[map[x][y]] = CRGB(255, 255, 255);
+      i++;
+    }
+    FastLED.show();
+    delay(speed);
+  }
+  for (i = 14; i < 24; i++)
+  {
+    leds[i] = CRGB(255, 255, 255);
+  }
+  FastLED.show();
+  delay(300);
 }
 
 void twinkle()
@@ -157,7 +375,8 @@ void horns_fade(uint8_t speed)
 {
   FastLED.clear();
   FastLED.show();
-  for (int i = 1; i < 14; i++)
+  delay(speed);
+  for (int i = 0; i < 14; i++)
   {
     leds[i] = CRGB(10, 10, 10);
   }
@@ -167,6 +386,11 @@ void horns_fade(uint8_t speed)
     uint8_t brightness = dim8_raw(i);
     for (uint8_t j = 14; j < 24; j++)
     {
+      if (btnPressed)
+      {
+        btnPressed = false;
+        return;
+      }
       leds[j] = CRGB(brightness, brightness, brightness);
     }
 
@@ -178,6 +402,11 @@ void horns_fade(uint8_t speed)
     uint8_t brightness = dim8_raw(i);
     for (uint8_t j = 14; j < 24; j++)
     {
+      if (btnPressed)
+      {
+        btnPressed = false;
+        return;
+      }
       leds[j] = CRGB(brightness, brightness, brightness);
     }
     FastLED.show();
@@ -194,8 +423,12 @@ void nose_fade(uint8_t speed)
     uint8_t brightness = dim8_raw(i);
 
     leds[0] = CRGB(brightness, 0, 0);
-
     FastLED.show();
+    if (btnPressed)
+    {
+      btnPressed = false;
+      return;
+    }
     delay(speed);
   }
   for (int i = 255; i > 50; i--)
@@ -203,6 +436,11 @@ void nose_fade(uint8_t speed)
     uint8_t brightness = dim8_raw(i);
     leds[0] = CRGB(brightness, 0, 0);
     FastLED.show();
+    if (btnPressed)
+    {
+      btnPressed = false;
+      return;
+    }
     delay(speed);
   }
 }
@@ -211,6 +449,7 @@ void btn_pressed()
   if (currentMode == 3)
     chooseNextColorPalette(gTargetPalette);
   currentMode++;
+  btnPressed = true;
 }
 
 // This function draws rainbows with an ever-changing,
