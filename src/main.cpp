@@ -159,7 +159,7 @@ void horns_fade(uint8_t speed)
   FastLED.show();
   for (int i = 1; i < 14; i++)
   {
-    leds[i] = CRGB(25, 25, 25);
+    leds[i] = CRGB(10, 10, 10);
   }
   FastLED.show();
   for (int i = 100; i < 255; i++)
