@@ -91,9 +91,16 @@ uint8_t gHue = 0;                  // rotating "base color" used by many of the 
 void setup()
 {
   FastLED.addLeds<WS2812B, 2>(leds, NUM_LEDS);
+  //FastLED.addLeds<WS2812B, 3>(leds, NUM_LEDS);
   attachInterrupt(digitalPinToInterrupt(4), btn_pressed, FALLING);
   u8g2.begin();
   u8g2.setFont(u8g2_font_profont17_tf); // choose a suitable font
+  u8g2.clearBuffer();
+    String s = "Merry X-Mas!";
+    //s += currentMode;
+    u8g2.drawStr(0, 40, s.c_str());
+    u8g2.sendBuffer(); // transfer internal memory to the display
+    previousMode = currentMode;
 }
 void loop()
 {
@@ -130,8 +137,8 @@ void loop()
   if (currentMode != previousMode)
   {
     u8g2.clearBuffer();
-    String s = "Hellow World!";
-    s += currentMode;
+    String s = "Merry X-Mas!";
+    //s += currentMode;
     u8g2.drawStr(0, 40, s.c_str());
     u8g2.sendBuffer(); // transfer internal memory to the display
     previousMode = currentMode;
